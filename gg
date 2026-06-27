@@ -2,126 +2,169 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@ecgl Test</title>
-
+<title>ECGL Menu</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: transparent;
+    }
 
-body{
-    background:#0d0d12;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
+    .menu {
+        width: 420px;
+        height: 320px;
+        background: rgba(20, 20, 20, 0.95);
+        border: 1px solid #444;
+        border-radius: 10px;
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        overflow: hidden;
+        display: none;
+    }
 
-.window{
-    width:500px;
-    background:#181820;
-    border:2px solid #8b5cf6;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 0 40px rgba(139,92,246,.4);
-}
+    .header {
+        background: #111;
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
 
-.titlebar{
-    background:#8b5cf6;
-    color:white;
-    padding:12px;
-    font-size:18px;
-    font-weight:bold;
-}
+    .tabs {
+        display: flex;
+        background: #1a1a1a;
+    }
 
-.content{
-    padding:25px;
-    color:white;
-}
+    .tab {
+        flex: 1;
+        padding: 8px;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
 
-input{
-    width:100%;
-    margin-top:10px;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#262633;
-    color:white;
-}
+    .tab:hover {
+        background: #222;
+    }
 
-button{
-    margin-top:20px;
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#8b5cf6;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:.2s;
-}
+    .tab.active {
+        border-bottom: 2px solid #00ff88;
+    }
 
-button:hover{
-    background:#9d70ff;
-}
+    .page {
+        display: none;
+        padding: 10px;
+        color: white;
+    }
 
-#status{
-    margin-top:20px;
-    color:#7cff9b;
-    font-weight:bold;
-}
+    .page.active {
+        display: block;
+    }
+
+    input {
+        width: 95%;
+        padding: 6px;
+        margin: 5px 0;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 5px;
+        background: #00ff88;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #00cc6a;
+    }
 </style>
-
 </head>
+
 <body>
 
-<div class="window">
+<div class="menu" id="menu">
 
-    <div class="titlebar">
-        @ecgl HTML Test
+    <div class="header">ECGL MENU</div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="openTab(0)">Spawner</div>
+        <div class="tab" onclick="openTab(1)">Exploits</div>
+        <div class="tab" onclick="openTab(2)">Emotes</div>
+        <div class="tab" onclick="openTab(3)">Weapons</div>
     </div>
 
-    <div class="content">
+    <!-- SPAWNER -->
+    <div class="page active">
+        <input id="playerId" placeholder="Player ID">
+        <input id="vehicleModel" placeholder="Vehicle Model">
+        <input id="amount" placeholder="Amount">
+        <input id="delay" placeholder="Delay (ms)">
+        <button onclick="spawn()">Spawn</button>
+    </div>
 
-        <h2>Hello Macho 👋</h2>
+    <!-- EXPLOITS -->
+    <div class="page">
+        <input id="exploitInput" placeholder="Exploit value">
+        <button onclick="runExploit()">Execute</button>
+    </div>
 
-        <p>If you can see this styled window, HTML + CSS works.</p>
+    <!-- EMOTES -->
+    <div class="page">
+        <input id="emoteName" placeholder="Emote name">
+        <button onclick="playEmote()">Play Emote</button>
+    </div>
 
-        <input
-            id="textbox"
-            placeholder="Type something..."
-        >
-
-        <button onclick="clicked()">
-            Test JavaScript
-        </button>
-
-        <div id="status">
-            Waiting...
-        </div>
-
+    <!-- WEAPONS -->
+    <div class="page">
+        <input id="weaponName" placeholder="Weapon name">
+        <button onclick="giveWeapon()">Give Weapon</button>
     </div>
 
 </div>
 
 <script>
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "CapsLock") {
+            let menu = document.getElementById("menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+    });
 
-function clicked(){
+    function openTab(index) {
+        let tabs = document.querySelectorAll(".tab");
+        let pages = document.querySelectorAll(".page");
 
-    const text=document.getElementById("textbox").value;
+        tabs.forEach(t => t.classList.remove("active"));
+        pages.forEach(p => p.classList.remove("active"));
 
-    document.getElementById("status").innerHTML=
-        "Button worked! You typed: <b>"+text+"</b>";
+        tabs[index].classList.add("active");
+        pages[index].classList.add("active");
+    }
 
-    console.log("JS Works!");
+    function spawn() {
+        console.log("Spawn pressed");
+    }
 
-}
+    function runExploit() {
+        console.log("Exploit executed");
+    }
 
+    function playEmote() {
+        console.log("Emote played");
+    }
+
+    function giveWeapon() {
+        console.log("Weapon given");
+    }
 </script>
 
 </body>
